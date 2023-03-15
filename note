@@ -1,0 +1,70 @@
+dcr app rails new . --css=sass --javascript=esbuild --database=postgresql --force
+sudo chown -R $USER:$USER .
+dcr app yarn add stimulus-autocomplete
+dc build
+dcr app bin/setup
+dcr app rails generate simple_form:install
+dcr app bin/rails generate model Laboratory name
+dcr app bin/rails generate devise:install
+dcr app bin/rails generate devise User
+dcr app bin/rails db:migrate
+
+dcr app bin/rails generate migration add_laboratory_reference_to_users laboratory:references
+
+dcr app bin/rails db:migrate
+
+
+dcr app bin/rails generate model Patient laboratory:references name:string
+dcr app bin/rails generate controller Patients
+resources :patients
+
+
+dcr app bin/rails generate controller Pages home
+
+
+dcr app bin/rails generate model Dtest laboratory:references dtest_name:string
+
+dcr app bin/rails generate controller Dtests index new create show edit update destroy
+
+dcr app bin/rails g model Investigation dtest:references inv_name:string inv_description:text inv_nvalue:string inv_result:string 
+
+dcr app bin/rails generate controller Investigations new create edit update destroy
+
+
+
+*************************************
+
+dcr app bin/rails generate model PatientTest patient:references testname:string
+add later when need be - add_index :patient_tests, [:date, :quote_id], unique: true ###
+
+dcr app bin/rails generate controller PatientTests new create 
+
+# dcr app bin/rails generate model PatientInquest patient_test:references inquest_name:string
+dcr app bin/rails g model PatientInquest patient_test:references inquest_name:string description:text nvalue:string result:string 
+
+dcr app bin/rails generate controller PatientInquests show new create delete edit update
+
+
+quantity - result
+unit_price - nvalue
+
+
+
+
+
+<div>
+  <%= form.label :phone_number, style: "display: block" %>
+  <%= form.text_field :phone_number, list: 'phone_numbers'%>
+  <datalist id='phone_numbers'>
+    <% User.pluck(:phone_number).each do |phone_number|%>
+      <option value=<%=phone_number%>></option>
+    <%end%>
+ </datalist>
+</div>
+
+
+dcr app yarn add stimulus-autocomplete
+
+
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
